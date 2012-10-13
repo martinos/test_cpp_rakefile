@@ -25,8 +25,8 @@ task :build=>['test.exe']
 file 'main.o' => ['main.cpp'] + HDRS
 file 'test.exe' => OBJ
 
+# Generate cpp file dependencies
 dependency_list = SRC.map{|l| `g++ -M -MM #{l}`.split("\n")}.flatten.map{|l| l.chomp}
-
 lines = dependency_list.map{|l| l.split(":")}.map{|(obj, deps_str)| {:obj => obj, :dep => deps_str.split}}
 lines.each do |dep_map|
   file dep_map[:obj] => dep_map[:dep]  
