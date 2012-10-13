@@ -1,12 +1,12 @@
 # source files.
-SRC = main.cpp mod.cpp
+SRC = main.cpp mod.cpp tata.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
 OUT = martin.exe
 
 # include directories
-INCLUDES = -I. -I../include/ -I/usr/local/include
+INCLUDES = -I. -I../include/ -I/usr/local/include 
 
 # C++ compiler flags (-g -O2 -Wall)
 CCFLAGS = -g
@@ -28,16 +28,12 @@ default: dep $(OUT)
 	$(CCC) $(INCLUDES) $(CCFLAGS) -c $< -o $@
 
 $(OUT): $(OBJ)
-	ar rcs $(OUT) $(OBJ)
+	g++ -o $(OUT) $(OBJ)
 
 depend: dep
 
 dep:
-	makedepend -- $(CFLAGS) -- $(INCLUDES) $(SRC)
+	g++ -M -MM
 
 clean:
 	rm -f $(OBJ) $(OUT) Makefile.bak 
-# DO NOT DELETE
-
-main.o: mod.h
-mod.o: mod.h

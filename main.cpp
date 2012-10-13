@@ -1,8 +1,11 @@
 #include<iostream>
 #include "mod.h"
+#include "user.h"
 
+using namespace std;
 int main() 
 {
-  std::cout << "Hello\n" << :fun(23);
+  cout << "This is a basic cpp app\n" << M::fun(12) << endl;
+  cout << "This is coco";
 } 
 
