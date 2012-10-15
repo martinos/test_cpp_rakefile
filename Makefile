@@ -1,5 +1,5 @@
 # source files.
-SRC = main.cpp mod.cpp tata.cpp
+SRC = main.cpp mod.cpp user.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
@@ -20,20 +20,22 @@ LIBS = -L../ -L/usr/local/lib -lm
 # compile flags
 LDFLAGS = -g
 
-.SUFFIXES: .cpp
-
-default: dep $(OUT)
-
-.cpp.o:
-	$(CCC) $(INCLUDES) $(CCFLAGS) -c $< -o $@
-
 $(OUT): $(OBJ)
 	g++ -o $(OUT) $(OBJ)
 
-depend: dep
+include $(SRC:.cpp=.d)
 
-dep:
-	g++ -M -MM
+.SUFFIXES: .cpp
+
+# Generating automatic dependencies
+%.d: %.cpp
+	@set -e; rm -f $@; \
+		$(CC) -MM $(CPPFLAGS) $< > $@.$$$$; \
+		sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+		rm -f $@.$$$$
+
+.cpp.o:
+	$(CCC) $(INCLUDES) $(CCFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ) $(OUT) Makefile.bak 
